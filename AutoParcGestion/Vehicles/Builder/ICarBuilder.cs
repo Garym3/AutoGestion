@@ -1,14 +1,16 @@
-﻿namespace AutoGestion.Vehicles.Builder
+﻿using static AutoGestion.Vehicles.Utils.VehicleEnums;
+
+namespace AutoGestion.Vehicles.Builder
 {
     public interface ICarBuilder
     {
         Vehicle Build();
 
-        ICarBuilder WithColor(string color);
+        ICarBuilder WithBrand(Brands brand);
+
+        ICarBuilder WithColor(Colors color);
 
         ICarBuilder WithEngineCapacity(int engineCapacity);
-
-        ICarBuilder WithBrand(string brand);
 
         ICarBuilder WithDoors(int numberOfDoors);
 

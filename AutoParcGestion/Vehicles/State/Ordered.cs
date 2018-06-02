@@ -1,14 +1,15 @@
 ﻿namespace AutoGestion.Vehicles.State
 {
-    public class Ordered : TransfertState
+    public class Ordered : ITransfertState
     {
-        public override void ChangeState()
+        public void Handle(TransfertState transfertState)
         {
-            VVehicle.TransfertState = new OnTheWay();
+            transfertState.State = new OnTheWay();
         }
+
         public override string ToString()
         {
-            return "Ordered";
+            return nameof(Ordered);
         }
     }
 }

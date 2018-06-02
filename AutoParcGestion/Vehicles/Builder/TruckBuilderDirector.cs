@@ -6,8 +6,9 @@ namespace AutoGestion.Vehicles.Builder
 {
     public class TruckBuilderDirector
     {
-        private readonly ITruckBuilder _truckBuilder;
+        private ITruckBuilder _truckBuilder;
         private readonly Random _randomizer = new Random();
+        private readonly VehicleEnums _vehicleEnums = new VehicleEnums();
 
         public TruckBuilderDirector()
         {
@@ -21,9 +22,11 @@ namespace AutoGestion.Vehicles.Builder
 
         public Vehicle Build(VehicleEnums.Brands brand, VehicleEnums.Colors color, int engineCapacity, int numberOfDoors, int numberOfSeats, double freight)
         {
+            _truckBuilder = new TruckBuilder();
+
             return _truckBuilder
-                .WithBrand(brand.ToString())
-                .WithColor(color.ToString())
+                .WithBrand(brand)
+                .WithColor(color)
                 .WithEngineCapacity(engineCapacity)
                 .WithDoors(numberOfDoors)
                 .WithSeats(numberOfSeats)
@@ -35,9 +38,11 @@ namespace AutoGestion.Vehicles.Builder
         {
             for (int i = 0; i < count; i++)
             {
+                _truckBuilder = new TruckBuilder();
+
                 yield return _truckBuilder
-                    .WithBrand(brand.ToString())
-                    .WithColor(color.ToString())
+                    .WithBrand(brand)
+                    .WithColor(color)
                     .WithEngineCapacity(engineCapacity)
                     .WithDoors(numberOfDoors)
                     .WithSeats(numberOfSeats)
@@ -48,8 +53,9 @@ namespace AutoGestion.Vehicles.Builder
         
         public Vehicle Build()
         {
-            var randomBrand = VehicleEnums.GetRandomBrandValue().ToString();
-            var randomColor = VehicleEnums.GetRandomColorValue().ToString();
+            var randomBrand = _vehicleEnums.GetRandomBrandValue();
+            var randomColor = _vehicleEnums.GetRandomColorValue();
+            _truckBuilder = new TruckBuilder();
 
             return _truckBuilder
                 .WithBrand(randomBrand)
@@ -61,14 +67,15 @@ namespace AutoGestion.Vehicles.Builder
                 .Build();
         }
 
-        [Obsolete("Pas si Random que ça")]
         public IEnumerable<Vehicle> Build(int count)
         {
-            var randomBrand = VehicleEnums.GetRandomBrandValue().ToString();
-            var randomColor = VehicleEnums.GetRandomColorValue().ToString();
-
+            var randomBrand = _vehicleEnums.GetRandomBrandValue();
+            var randomColor = _vehicleEnums.GetRandomColorValue();
+            
             for (int i = 0; i < count; i++)
             {
+                _truckBuilder = new TruckBuilder();
+
                 yield return _truckBuilder
                     .WithBrand(randomBrand)
                     .WithColor(randomColor)

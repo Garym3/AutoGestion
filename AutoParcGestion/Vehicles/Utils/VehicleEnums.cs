@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Linq;
 
 namespace AutoGestion.Vehicles.Utils
 {
-    public static class VehicleEnums
+    public class VehicleEnums
     {
-        private static readonly Random Randomizer = new Random();
+        private readonly Random _randomizer = new Random();
 
-        public static Enum GetRandomBrandValue()
+        public Brands GetRandomBrandValue()
         {
             Array brands = Enum.GetValues(typeof(Brands));
-            return (Brands)brands.GetValue(Randomizer.Next(1, brands.Length));
+            return (Brands)brands.GetValue(_randomizer.Next(1, brands.Length));
         }
 
-        public static Enum GetRandomColorValue()
+        public Colors GetRandomColorValue()
         {
             Array colors = Enum.GetValues(typeof(Colors));
-            return (Colors)colors.GetValue(Randomizer.Next(1, colors.Length));
+            return (Colors)colors.GetValue(_randomizer.Next(1, colors.Length));
         }
 
         public enum Brands

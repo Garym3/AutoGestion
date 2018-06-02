@@ -1,10 +1,10 @@
-﻿using AutoGestion.Vehicles.State;
+﻿using static AutoGestion.Vehicles.Utils.VehicleEnums;
 
 namespace AutoGestion.Vehicles.Builder
 {
     public class CarBuilder : ICarBuilder
     {
-        private readonly Vehicle _car;
+        private readonly Car _car;
 
         public CarBuilder()
         {
@@ -16,14 +16,14 @@ namespace AutoGestion.Vehicles.Builder
             return _car;
         }
 
-        public ICarBuilder WithBrand(string brand)
+        public ICarBuilder WithBrand(Brands brand)
         {
             _car.Brand = brand;
 
             return this;
         }
 
-        public ICarBuilder WithColor(string color)
+        public ICarBuilder WithColor(Colors color)
         {
             _car.Color = color;
 

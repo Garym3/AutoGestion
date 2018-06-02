@@ -1,10 +1,15 @@
 ﻿namespace AutoGestion.Vehicles.State
 {
-    public class Arrived : TransfertState
+    public class Arrived : ITransfertState
     {
-        public override void ChangeState()
+        public void Handle(TransfertState transfertState)
         {
-            VVehicle.TransfertState = this;
+            
+        }
+
+        public override string ToString()
+        {
+            return nameof(Arrived);
         }
     }
 }

@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AutoGestion.Vehicles.State
+﻿namespace AutoGestion.Vehicles.State
 {
-    public class Available : TransfertState
+    public class Available : ITransfertState
     {
-        public override void ChangeState()
+        public void Handle(TransfertState transfertState)
         {
-            VVehicle.TransfertState = new Ordered();
+            transfertState.State = new Ordered();
         }
 
         public override string ToString()
         {
-            return "Available";
+            return nameof(Available);
         }
     }
 }

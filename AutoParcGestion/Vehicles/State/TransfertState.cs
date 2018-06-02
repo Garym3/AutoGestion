@@ -1,9 +1,17 @@
 ﻿namespace AutoGestion.Vehicles.State
 {
-    public abstract class TransfertState
+    public class TransfertState
     {
-        protected Vehicle VVehicle;
-        
-        public abstract void ChangeState();
+        public ITransfertState State { get; set; } = new Available();
+
+        public void Update()
+        {
+            State.Handle(this);
+        }
+
+        public override string ToString()
+        {
+            return State.ToString();
+        }
     }
 }

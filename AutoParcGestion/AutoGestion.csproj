@@ -76,6 +76,7 @@
     <Compile Include="Vehicles\State\Available.cs" />
     <Compile Include="Vehicles\State\OnTheWay.cs" />
     <Compile Include="Vehicles\State\Ordered.cs" />
+    <Compile Include="Vehicles\State\ITransfertState.cs" />
     <Compile Include="Vehicles\State\TransfertState.cs" />
     <Compile Include="Vehicles\Utils\VehicleEnums.cs" />
     <Compile Include="Vehicles\Vehicle.cs" />

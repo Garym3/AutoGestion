@@ -1,8 +1,10 @@
-﻿namespace AutoGestion.Vehicles.Builder
+﻿using static AutoGestion.Vehicles.Utils.VehicleEnums;
+
+namespace AutoGestion.Vehicles.Builder
 {
     public class TruckBuilder : ITruckBuilder
     {
-        private readonly Vehicle _truck;
+        private readonly Truck _truck;
 
         public TruckBuilder()
         {
@@ -14,14 +16,14 @@
             return _truck;
         }
 
-        public ITruckBuilder WithBrand(string brand)
+        public ITruckBuilder WithBrand(Brands brand)
         {
             _truck.Brand = brand;
 
             return this;
         }
 
-        public ITruckBuilder WithColor(string color)
+        public ITruckBuilder WithColor(Colors color)
         {
             _truck.Color = color;
 
@@ -51,7 +53,7 @@
 
         public ITruckBuilder WithFreight(double freight)
         {
-            ((ITruck)_truck).Freight = freight;
+            _truck.Freight = freight;
 
             return this;
         }
