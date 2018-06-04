@@ -36,13 +36,13 @@ namespace AutoGestion.Vehicles
 
         public virtual void FillTank(double fuel)
         {
-            if (TankFuel + fuel > 100.0) return;
+            if (TankFuel + fuel > 100.0) TankFuel = 100;
             TankFuel += fuel;
         }
 
         public virtual void ConsumeFuel(double fuel)
         {
-            if (TankFuel - fuel < 0.0) return;
+            if (TankFuel - fuel < 0.0) TankFuel = 0;
             TankFuel -= fuel;
         }
 
@@ -54,10 +54,8 @@ namespace AutoGestion.Vehicles
 
         public virtual void Print()
         {
-            Console.Write($"Type: {GetType().Name}  | Transfert State: {TransfertState} | Brand: {Brand} | Color: {Color} |" +
+            Console.WriteLine($"Type: {GetType().Name}  | Transfert State: {TransfertState} | Brand: {Brand} | Color: {Color} |" +
                           $" Engine Capacity: {EngineCapacity} | Doors: {NumberOfDoors} | Seats: {NumberOfSeats} | Engine State: {EngineState}");
-
-            Console.WriteLine();
         }
 
         public void UpdateTransfertState()

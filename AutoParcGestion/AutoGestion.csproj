@@ -59,17 +59,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Garage\Garage.cs" />
+    <Compile Include="Garage\Observer\Observable.cs" />
+    <Compile Include="Garage\Observer\IObserver.cs" />
+    <Compile Include="Garage\Observer\Parc.cs" />
     <Compile Include="Vehicles\Builder\TruckBuilderDirector.cs" />
     <Compile Include="Vehicles\Builder\CarBuilderDirector.cs" />
     <Compile Include="Vehicles\Builder\TruckBuilder.cs" />
     <Compile Include="Vehicles\Builder\CarBuilder.cs" />
     <Compile Include="Vehicles\Builder\ITruckBuilder.cs" />
     <Compile Include="Vehicles\Builder\ICarBuilder.cs" />
-    <Compile Include="Vehicles\Car.cs" />
+    <Compile Include="Vehicles\Template\Car.cs" />
     <Compile Include="Vehicles\Factory\VehicleFactory.cs" />
-    <Compile Include="Vehicles\ICar.cs" />
-    <Compile Include="Vehicles\ITruck.cs" />
+    <Compile Include="Vehicles\Template\ICar.cs" />
+    <Compile Include="Vehicles\Template\ITruck.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vehicles\State\Arrived.cs" />
@@ -79,8 +81,8 @@
     <Compile Include="Vehicles\State\ITransfertState.cs" />
     <Compile Include="Vehicles\State\TransfertState.cs" />
     <Compile Include="Vehicles\Utils\VehicleEnums.cs" />
-    <Compile Include="Vehicles\Vehicle.cs" />
-    <Compile Include="Vehicles\Truck.cs" />
+    <Compile Include="Vehicles\Template\Vehicle.cs" />
+    <Compile Include="Vehicles\Template\Truck.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

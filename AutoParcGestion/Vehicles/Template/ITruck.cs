@@ -4,8 +4,8 @@
     {
         double Freight { get; set; }
 
-        void LoadFreight(double fret);
+        void LoadFreight(double freight);
 
-        void UnloadFreight(double fret);
+        void UnloadFreight(double freight);
     }
 }
