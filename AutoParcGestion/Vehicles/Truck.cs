@@ -15,5 +15,14 @@ namespace AutoGestion.Vehicles
         {
             throw new NotImplementedException();
         }
+
+        public override void Print()
+        {
+            Console.Write($"Type: {GetType().Name}  | Transfert State: {TransfertState} | Brand: {Brand} | Color: {Color} |" +
+                          $" Engine Capacity: {EngineCapacity} | Doors: {NumberOfDoors} | Seats: {NumberOfSeats} | Engine State: {EngineState} |" +
+                          $" Freight: {Freight}");
+
+            Console.WriteLine();
+        }
     }
 }

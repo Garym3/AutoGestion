@@ -52,19 +52,17 @@ namespace AutoGestion.Vehicles
             TankFuel = 0.0;
         }
 
+        public virtual void Print()
+        {
+            Console.Write($"Type: {GetType().Name}  | Transfert State: {TransfertState} | Brand: {Brand} | Color: {Color} |" +
+                          $" Engine Capacity: {EngineCapacity} | Doors: {NumberOfDoors} | Seats: {NumberOfSeats} | Engine State: {EngineState}");
+
+            Console.WriteLine();
+        }
+
         public void UpdateTransfertState()
         {
             TransfertState.Update();
-        }
-
-        public void Print()
-        {
-            Console.Write($"Vehicle Type: {GetType().Name}  | Transfert State: {TransfertState} | Brand: {Brand} | Color: {Color} |" +
-                          $" Engine Capacity: {EngineCapacity} | Doors: {NumberOfDoors} | Seats: {NumberOfSeats} | Engine State: {EngineState}");
-
-            if (this is Truck truckVehicle) Console.Write($" | Freight: {truckVehicle.Freight}");
-
-            Console.WriteLine();
         }
     }
 }
