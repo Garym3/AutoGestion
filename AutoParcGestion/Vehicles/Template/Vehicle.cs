@@ -1,14 +1,16 @@
 ﻿using System;
 using AutoGestion.Vehicles.State;
-using static AutoGestion.Vehicles.Utils.VehicleEnums;
+using AutoGestion.Vehicles.Utils;
 
-namespace AutoGestion.Vehicles
+namespace AutoGestion.Vehicles.Template
 {
     public abstract class Vehicle
     {
-        public Brands Brand;
+        private static readonly Random Rnd = new Random();
 
-        public Colors Color;
+        public VehicleEnums.Brands Brand;
+
+        public VehicleEnums.Colors Color;
 
         public int EngineCapacity;
 
@@ -20,7 +22,10 @@ namespace AutoGestion.Vehicles
 
         public int NumberOfSeats;
 
+        public double Price = Math.Round((Rnd.NextDouble() + 0.05) * 10000);
+
         public readonly TransfertState TransfertState = new TransfertState();
+        
 
         public virtual void StartEngine()
         {

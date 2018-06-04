@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoGestion.Vehicles;
+﻿using System.Collections.Generic;
+using AutoGestion.Vehicles.Template;
+using AutoGestion.Vehicles.Utils;
 
 namespace AutoGestion.Garage.Observer
 {
     public abstract class Observable
     {
-        protected readonly List<IObserver> Observers = new List<IObserver>();
+        protected readonly Dictionary<IObserver, GarageEnums.Events> Observers = new Dictionary<IObserver, GarageEnums.Events>();
 
         /// <summary>
         /// Attach an observer
         /// </summary>
         /// <param name="observer"></param>
-        public void Attach(IObserver observer)
+        /// <param name="garageEvent"></param>
+        public void Attach(IObserver observer, GarageEnums.Events garageEvent = GarageEnums.Events.Nothing)
         {
-            Observers.Add(observer);
+            Observers.Add(observer, garageEvent);
         }
 
         /// <summary>
@@ -33,11 +31,15 @@ namespace AutoGestion.Garage.Observer
         /// Notify an event to registered observers
         /// </summary>
         /// <param name="vehicle"></param>
-        public void Notify(Vehicle vehicle)
+        /// <param name="garageEvent"></param>
+        public void Notify(Vehicle vehicle, GarageEnums.Events garageEvent)
         {
-            foreach (IObserver observer in Observers)
+            foreach (IObserver observer in Observers.Keys)
             {
-                observer.Notify(vehicle);
+                if (Observers[observer] == garageEvent)
+                {
+                    observer.Notify(vehicle, garageEvent);
+                }
             }
         }
     }

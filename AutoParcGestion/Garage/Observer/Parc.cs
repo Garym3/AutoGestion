@@ -1,56 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoGestion.Vehicles;
+﻿using System.Collections.Generic;
+using AutoGestion.Vehicles.Template;
+using AutoGestion.Vehicles.Utils;
 
 namespace AutoGestion.Garage.Observer
 {
-    public class Parc
+    public class Parc : Observable
     {
-        private readonly List<Vehicle> _storedVehicles;
-
-        public Parc(List<Vehicle> vehicles)
-        {
-            _storedVehicles = vehicles;
-        }
+        public readonly List<Vehicle> StoredVehicles = new List<Vehicle>();
 
         public void AddVehicle(Vehicle vehicle)
         {
-            _storedVehicles.Add(vehicle);
+            StoredVehicles.Add(vehicle);
+            Notify(vehicle, GarageEnums.Events.AddVehicle);
         }
 
-        public void AddVehicles(IEnumerable<Vehicle> vehicles)
+        public void AddVehicles(List<Vehicle> vehicles)
         {
-            _storedVehicles.AddRange(vehicles);
+            vehicles.ForEach(v => Notify(v, GarageEnums.Events.AddVehicle));
+            StoredVehicles.AddRange(vehicles);
         }
 
         public void RemoveVehicle(Vehicle vehicle)
         {
-            _storedVehicles.Remove(vehicle);
+            StoredVehicles.Remove(vehicle);
+            Notify(vehicle, GarageEnums.Events.RemoveVehicle);
         }
 
         public void RemoveAllVehicles()
         {
-            _storedVehicles.Clear();
-        }
-
-        public List<Vehicle> GetAllVehicles()
-        {
-            return _storedVehicles;
-        }
-
-        public void Subscribe(Vehicle vehicle)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Unsubscribe(Vehicle vehicle)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Notify()
-        {
-            throw new System.NotImplementedException();
+            StoredVehicles.ForEach(v => Notify(v, GarageEnums.Events.RemoveVehicle));
+            StoredVehicles.Clear();
         }
     }
 }

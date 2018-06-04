@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoGestion.Vehicles
+namespace AutoGestion.Vehicles.Template
 {
     public class Truck : Vehicle, ITruck
     {

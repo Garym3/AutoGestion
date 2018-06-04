@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoGestion.Vehicles.Template;
 using AutoGestion.Vehicles.Utils;
 
 namespace AutoGestion.Vehicles.Builder

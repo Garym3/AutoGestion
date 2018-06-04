@@ -1,4 +1,5 @@
-﻿using static AutoGestion.Vehicles.Utils.VehicleEnums;
+﻿using AutoGestion.Vehicles.Template;
+using static AutoGestion.Vehicles.Utils.VehicleEnums;
 
 namespace AutoGestion.Vehicles.Builder
 {

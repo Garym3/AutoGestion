@@ -1,4 +1,4 @@
-﻿namespace AutoGestion.Vehicles
+﻿namespace AutoGestion.Vehicles.Template
 {
     public interface ITruck
     {

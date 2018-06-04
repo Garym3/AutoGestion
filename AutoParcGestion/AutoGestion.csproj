@@ -62,14 +62,17 @@
     <Compile Include="Garage\Observer\Observable.cs" />
     <Compile Include="Garage\Observer\IObserver.cs" />
     <Compile Include="Garage\Observer\Parc.cs" />
+    <Compile Include="Garage\Observer\VehicleSupplying.cs" />
     <Compile Include="Vehicles\Builder\TruckBuilderDirector.cs" />
     <Compile Include="Vehicles\Builder\CarBuilderDirector.cs" />
     <Compile Include="Vehicles\Builder\TruckBuilder.cs" />
     <Compile Include="Vehicles\Builder\CarBuilder.cs" />
     <Compile Include="Vehicles\Builder\ITruckBuilder.cs" />
     <Compile Include="Vehicles\Builder\ICarBuilder.cs" />
+    <Compile Include="Vehicles\Proxy\IPrice.cs" />
+    <Compile Include="Vehicles\Proxy\Price.cs" />
+    <Compile Include="Vehicles\Proxy\PriceProxy.cs" />
     <Compile Include="Vehicles\Template\Car.cs" />
-    <Compile Include="Vehicles\Factory\VehicleFactory.cs" />
     <Compile Include="Vehicles\Template\ICar.cs" />
     <Compile Include="Vehicles\Template\ITruck.cs" />
     <Compile Include="Program.cs" />
@@ -80,6 +83,7 @@
     <Compile Include="Vehicles\State\Ordered.cs" />
     <Compile Include="Vehicles\State\ITransfertState.cs" />
     <Compile Include="Vehicles\State\TransfertState.cs" />
+    <Compile Include="Vehicles\Utils\GarageEnums.cs" />
     <Compile Include="Vehicles\Utils\VehicleEnums.cs" />
     <Compile Include="Vehicles\Template\Vehicle.cs" />
     <Compile Include="Vehicles\Template\Truck.cs" />
