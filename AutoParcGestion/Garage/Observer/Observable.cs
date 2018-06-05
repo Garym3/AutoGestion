@@ -35,11 +35,11 @@ namespace AutoGestion.Garage.Observer
         /// <param name="garageEvent"></param>
         public void Notify(Vehicle vehicle, GarageEnums.Events garageEvent)
         {
-            foreach (var kv in Observers)
+            foreach (var observer in Observers)
             {
-                if (kv.Value == garageEvent)
+                if (observer.Value == garageEvent)
                 {
-                    kv.Key.Notify(vehicle, garageEvent);
+                    observer.Key.Notify(vehicle, garageEvent);
                 }
             }
         }

@@ -6,30 +6,35 @@ namespace AutoGestion.Garage.Observer
 {
     public class Parc : Observable
     {
-        public readonly List<Vehicle> StoredVehicles = new List<Vehicle>();
+        private readonly List<Vehicle> _storedVehicles = new List<Vehicle>();
 
         public void AddVehicle(Vehicle vehicle)
         {
-            StoredVehicles.Add(vehicle);
+            _storedVehicles.Add(vehicle);
             Notify(vehicle, GarageEnums.Events.AddVehicle);
         }
 
         public void AddVehicles(List<Vehicle> vehicles)
         {
             vehicles.ForEach(v => Notify(v, GarageEnums.Events.AddVehicle));
-            StoredVehicles.AddRange(vehicles);
+            _storedVehicles.AddRange(vehicles);
         }
 
         public void RemoveVehicle(Vehicle vehicle)
         {
-            StoredVehicles.Remove(vehicle);
+            _storedVehicles.Remove(vehicle);
             Notify(vehicle, GarageEnums.Events.RemoveVehicle);
         }
 
         public void RemoveAllVehicles()
         {
-            StoredVehicles.ForEach(v => Notify(v, GarageEnums.Events.RemoveVehicle));
-            StoredVehicles.Clear();
+            _storedVehicles.ForEach(v => Notify(v, GarageEnums.Events.RemoveVehicle));
+            _storedVehicles.Clear();
+        }
+
+        public List<Vehicle> GetStoredVehicles()
+        {
+            return _storedVehicles;
         }
     }
 }

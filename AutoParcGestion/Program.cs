@@ -25,10 +25,10 @@ namespace AutoGestion
             var truckBuilderDirector = new TruckBuilderDirector();
             
             // On construit 3 véhicules identiques de chaque type...
-            var car = carBuilderDirector.Build(3, Brands.Renault, Colors.Black, 2000, 4, 5);
-            var truck = truckBuilderDirector.Build(3, Brands.Peugeot, Colors.White, 8000, 2, 3, 7000);
+            var cars = carBuilderDirector.Build(3, Brands.Renault, Colors.Black, 2000, 4, 5);
+            var trucks = truckBuilderDirector.Build(3, Brands.Peugeot, Colors.White, 8000, 2, 3, 7000);
 
-            var vehicles = car.Concat(truck).ToList();
+            var vehicles = cars.Concat(trucks).ToList();
 
             var priceProxy = new PriceProxy();
 
@@ -37,11 +37,11 @@ namespace AutoGestion
 
             Console.WriteLine();
 
-            parc.StoredVehicles.ForEach(v => v.Print());
+            parc.GetStoredVehicles().ForEach(v => v.Print());
 
             Console.WriteLine(Environment.NewLine + "How much do they cost?" + Environment.NewLine);
 
-            parc.StoredVehicles.ForEach(v =>
+            parc.GetStoredVehicles().ForEach(v =>
             {
                 priceProxy.SetPrice(v, priceProxy.ComputeTaxe(v.Price, 1.2));
                 Console.WriteLine($"{v.Brand} | {v.GetType().Name} | Price: {v.Price}");
@@ -50,11 +50,11 @@ namespace AutoGestion
             Console.WriteLine(Environment.NewLine + "Ordering these vehicles...");
 
             // Pattern State pour mettre à jour le statut de transfert des véhicules selon un schéma précis
-            parc.StoredVehicles.ForEach(v => v.UpdateTransfertState());
+            parc.GetStoredVehicles().ForEach(v => v.UpdateTransfertState());
 
             Console.WriteLine(Environment.NewLine + "Done!" + Environment.NewLine);
 
-            parc.StoredVehicles.ForEach(v => v.Print());
+            parc.GetStoredVehicles().ForEach(v => v.Print());
 
             Console.WriteLine();
 
