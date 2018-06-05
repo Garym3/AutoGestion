@@ -3,9 +3,9 @@ using static AutoGestion.Vehicles.Utils.VehicleEnums;
 
 namespace AutoGestion.Vehicles.Builder
 {
-    public interface ICarBuilder
+    public interface ICarBuilder : IVehicleBuilder<ICarBuilder>
     {
-        Vehicle Build();
+        /*Vehicle Build();
 
         ICarBuilder WithBrand(Brands brand);
 
@@ -15,6 +15,6 @@ namespace AutoGestion.Vehicles.Builder
 
         ICarBuilder WithDoors(int numberOfDoors);
 
-        ICarBuilder WithSeats(int numberOfSeats);
+        ICarBuilder WithSeats(int numberOfSeats);*/
     }
 }

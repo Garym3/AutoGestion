@@ -63,6 +63,7 @@
     <Compile Include="Garage\Observer\IObserver.cs" />
     <Compile Include="Garage\Observer\Parc.cs" />
     <Compile Include="Garage\Observer\VehicleSupplying.cs" />
+    <Compile Include="Vehicles\Builder\IVehicleBuilder.cs" />
     <Compile Include="Vehicles\Builder\TruckBuilderDirector.cs" />
     <Compile Include="Vehicles\Builder\CarBuilderDirector.cs" />
     <Compile Include="Vehicles\Builder\TruckBuilder.cs" />

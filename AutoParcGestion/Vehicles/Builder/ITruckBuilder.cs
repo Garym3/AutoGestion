@@ -1,11 +1,8 @@
-﻿using AutoGestion.Vehicles.Template;
-using static AutoGestion.Vehicles.Utils.VehicleEnums;
-
-namespace AutoGestion.Vehicles.Builder
+﻿namespace AutoGestion.Vehicles.Builder
 {
-    public interface ITruckBuilder
+    public interface ITruckBuilder : IVehicleBuilder<ITruckBuilder>
     {
-        Vehicle Build();
+        /*Vehicle Build();
 
         ITruckBuilder WithBrand(Brands brand);
 
@@ -15,7 +12,7 @@ namespace AutoGestion.Vehicles.Builder
 
         ITruckBuilder WithDoors(int numberOfDoors);
 
-        ITruckBuilder WithSeats(int numberOfSeats);
+        ITruckBuilder WithSeats(int numberOfSeats);*/
 
         ITruckBuilder WithFreight(double freight);
     }
