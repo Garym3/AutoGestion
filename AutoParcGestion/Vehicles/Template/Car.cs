@@ -1,6 +1,6 @@
 ﻿namespace AutoGestion.Vehicles.Template
 {
-    public class Car : Vehicle, ICar
+    public class Car : Vehicle
     {
         
     }

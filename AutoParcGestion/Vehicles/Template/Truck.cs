@@ -2,7 +2,7 @@
 
 namespace AutoGestion.Vehicles.Template
 {
-    public class Truck : Vehicle, ITruck
+    public class Truck : Vehicle
     {
         public double Freight { get; set; }
 

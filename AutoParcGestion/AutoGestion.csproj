@@ -73,8 +73,6 @@
     <Compile Include="Vehicles\Proxy\Price.cs" />
     <Compile Include="Vehicles\Proxy\PriceProxy.cs" />
     <Compile Include="Vehicles\Template\Car.cs" />
-    <Compile Include="Vehicles\Template\ICar.cs" />
-    <Compile Include="Vehicles\Template\ITruck.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vehicles\State\Arrived.cs" />
