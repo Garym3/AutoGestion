@@ -6,25 +6,26 @@ namespace AutoGestion.Garage.Observer
 {
     public abstract class Observable
     {
-        protected readonly Dictionary<IObserver, GarageEnums.Events> Observers = new Dictionary<IObserver, GarageEnums.Events>();
+        protected readonly List<KeyValuePair<IObserver, GarageEnums.Events>> Observers = new List<KeyValuePair<IObserver, GarageEnums.Events>>();
 
         /// <summary>
         /// Attach an observer
         /// </summary>
         /// <param name="observer"></param>
         /// <param name="garageEvent"></param>
-        public void Attach(IObserver observer, GarageEnums.Events garageEvent = GarageEnums.Events.Nothing)
+        public void Attach(IObserver observer, GarageEnums.Events garageEvent)
         {
-            Observers.Add(observer, garageEvent);
+            Observers.Add(new KeyValuePair<IObserver, GarageEnums.Events>(observer, garageEvent));
         }
 
         /// <summary>
         /// Detach an observer
         /// </summary>
         /// <param name="observer"></param>
-        public void Detach(IObserver observer)
+        /// <param name="garageEvent"></param>
+        public void Detach(IObserver observer, GarageEnums.Events garageEvent)
         {
-            Observers.Remove(observer);
+            Observers.Remove(new KeyValuePair<IObserver, GarageEnums.Events>(observer, garageEvent));
         }
 
         /// <summary>
@@ -34,11 +35,11 @@ namespace AutoGestion.Garage.Observer
         /// <param name="garageEvent"></param>
         public void Notify(Vehicle vehicle, GarageEnums.Events garageEvent)
         {
-            foreach (IObserver observer in Observers.Keys)
+            foreach (var kv in Observers)
             {
-                if (Observers[observer] == garageEvent)
+                if (kv.Value == garageEvent)
                 {
-                    observer.Notify(vehicle, garageEvent);
+                    kv.Key.Notify(vehicle, garageEvent);
                 }
             }
         }

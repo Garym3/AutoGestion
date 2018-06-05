@@ -14,10 +14,11 @@ namespace AutoGestion
         {
             // Un parc automobile contient de 0 à plusieurs véhicules. Un véhicule peut-être un camion, une voiture, ou autre (Template).
             var parc = new Parc();
+            var vehicleSupplying = new VehicleSupplying();
 
             // Pattern Observer avec application des listeners pour l'ajout et la suppression de véhicules
-            parc.Attach(new VehicleSupplying(), GarageEnums.Events.AddVehicle);
-            parc.Attach(new VehicleSupplying(), GarageEnums.Events.RemoveVehicle);
+            parc.Attach(vehicleSupplying, GarageEnums.Events.AddVehicle);
+            parc.Attach(vehicleSupplying, GarageEnums.Events.RemoveVehicle);
 
             // Pattern Builder avec des directeurs
             var carBuilderDirector = new CarBuilderDirector();
@@ -59,6 +60,11 @@ namespace AutoGestion
 
             // On supprime les véhicules du parc automobile pour déclencher les listeners
             parc.RemoveAllVehicles();
+
+            // Éventuellement, on peut désactiver les listeners
+            parc.Detach(vehicleSupplying, GarageEnums.Events.AddVehicle);
+            parc.Detach(vehicleSupplying, GarageEnums.Events.RemoveVehicle);
+            parc.AddVehicles(carBuilderDirector.Build(2).ToList());
 
             Console.ReadLine();
         }
