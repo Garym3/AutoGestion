@@ -16,12 +16,12 @@ namespace AutoGestion.Vehicles.Template
             if (Freight - freight <= 0) Freight = 0;
             Freight -= freight;
         }
-
-        public override void Print()
+        
+        public override string ToString()
         {
-            Console.WriteLine($"Type: {GetType().Name}  | Transfert State: {TransfertState} | Brand: {Brand} | Color: {Color} | " +
-                          $"Engine Capacity: {EngineCapacity} | Doors: {NumberOfDoors} | Seats: {NumberOfSeats} | Engine State: {EngineState} | " +
-                          $"Freight: {Freight}");
+            return $"Type: {GetType().Name}  | Transfert State: {TransfertState} | Brand: {Brand} | Color: {Color} | " +
+                   $"Engine Capacity: {EngineCapacity} | Doors: {NumberOfDoors} | Seats: {NumberOfSeats} | Engine State: {EngineState} | " +
+                   $"Freight: {Freight}";
         }
     }
 }

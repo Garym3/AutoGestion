@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using AutoGestion.Vehicles.State;
 using AutoGestion.Vehicles.Template;
 using AutoGestion.Vehicles.Utils;
 
@@ -8,25 +10,25 @@ namespace AutoGestion.Garage.Observer
     {
         private readonly List<Vehicle> _storedVehicles = new List<Vehicle>();
 
-        public void AddVehicle(Vehicle vehicle)
+        public void OrderVehicle(Vehicle vehicle)
         {
             _storedVehicles.Add(vehicle);
             Notify(vehicle, GarageEnums.Events.AddVehicle);
         }
 
-        public void AddVehicles(List<Vehicle> vehicles)
+        public void OrderVehicles(List<Vehicle> vehicles)
         {
             vehicles.ForEach(v => Notify(v, GarageEnums.Events.AddVehicle));
             _storedVehicles.AddRange(vehicles);
         }
 
-        public void RemoveVehicle(Vehicle vehicle)
+        public void CancelVehicleOrder(Vehicle vehicle)
         {
             _storedVehicles.Remove(vehicle);
             Notify(vehicle, GarageEnums.Events.RemoveVehicle);
         }
 
-        public void RemoveAllVehicles()
+        public void CancelVehiclesOrder()
         {
             _storedVehicles.ForEach(v => Notify(v, GarageEnums.Events.RemoveVehicle));
             _storedVehicles.Clear();
@@ -34,7 +36,7 @@ namespace AutoGestion.Garage.Observer
 
         public List<Vehicle> GetStoredVehicles()
         {
-            return _storedVehicles;
+            return _storedVehicles.Where(v => v.TransfertState.State is Arrived) as List<Vehicle>;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoGestion.Garage.Observer;
@@ -55,7 +55,7 @@ namespace AutoGestionTests
             _trucks = _truckBuilderDirector.Build(50, VehicleEnums.Brands.Peugeot, VehicleEnums.Colors.White, 8000, 2, 3, 7000).ToList();
             _vehicles = _cars.Concat(_trucks).ToList();
 
-            _parc.AddVehicles(_vehicles);
+            _parc.OrderVehicles(_vehicles);
 
             CollectionAssert.AreEqual(_vehicles, _parc.GetStoredVehicles());
         }
@@ -69,8 +69,8 @@ namespace AutoGestionTests
             _trucks = _truckBuilderDirector.Build(50, VehicleEnums.Brands.Peugeot, VehicleEnums.Colors.White, 8000, 2, 3, 7000).ToList();
             _vehicles = _cars.Concat(_trucks).ToList();
 
-            _parc.AddVehicles(_vehicles);
-            _parc.RemoveAllVehicles();
+            _parc.OrderVehicles(_vehicles);
+            _parc.CancelVehiclesOrder();
 
             Assert.IsTrue(_parc.GetStoredVehicles().Count == 0);
         }

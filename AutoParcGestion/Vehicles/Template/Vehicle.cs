@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoGestion.Vehicles.State;
 using AutoGestion.Vehicles.Utils;
 
@@ -57,15 +58,20 @@ namespace AutoGestion.Vehicles.Template
             TankFuel = 0.0;
         }
 
-        public virtual void Print()
+        public virtual void PrintVehicleCharacteristics()
         {
-            Console.WriteLine($"Type: {GetType().Name}  | Transfert State: {TransfertState} | Brand: {Brand} | Color: {Color} |" +
-                          $" Engine Capacity: {EngineCapacity} | Doors: {NumberOfDoors} | Seats: {NumberOfSeats} | Engine State: {EngineState}");
+            Console.WriteLine(ToString());
         }
 
         public void UpdateTransfertState()
         {
             TransfertState.Update();
+        }
+
+        public override string ToString()
+        {
+            return $"Type: {GetType().Name}  | Transfert State: {TransfertState} | Brand: {Brand} | Color: {Color} |" +
+                   $" Engine Capacity: {EngineCapacity} | Doors: {NumberOfDoors} | Seats: {NumberOfSeats} | Engine State: {EngineState}";
         }
     }
 }
