@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AutoGestion.Vehicles.Template
+﻿namespace AutoGestion.Vehicles.Entities
 {
     public class Truck : Vehicle
     {

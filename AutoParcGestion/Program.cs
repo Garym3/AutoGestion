@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
-using AutoGestion.Garage.Observer;
 using AutoGestion.Vehicles.Builder;
-using AutoGestion.Vehicles.Proxy;
-using AutoGestion.Vehicles.Utils;
-using static AutoGestion.Vehicles.Utils.VehicleEnums;
+using static AutoGestion.Utils.VehicleEnums;
 
 namespace AutoGestion
 {
@@ -33,15 +30,15 @@ namespace AutoGestion
             var vehicles = cars.Concat(trucks).ToList();
 
             // Le parc automobile réserve des véhicules
-            parc.OrderVehicles(vehicles);
+            parc.UpdateVehiclesTransfertState(vehicles);
 
             Console.WriteLine();
 
-            parc.GetStoredVehicles().ForEach(v => v.PrintVehicleCharacteristics());
+            parc.GetOwnedVehicles().ForEach(v => v.PrintVehicleCharacteristics());
 
             Console.WriteLine(Environment.NewLine + "How much do they cost?" + Environment.NewLine);
 
-            parc.GetStoredVehicles().ForEach(v =>
+            parc.GetOwnedVehicles().ForEach(v =>
             {
                 priceProxy.SetPrice(v, priceProxy.ComputeTaxe(v.Price, 1.2));
                 Console.WriteLine($"{v.Brand} | {v.GetType().Name} | Price: {v.Price}");
@@ -50,16 +47,16 @@ namespace AutoGestion
             Console.WriteLine(Environment.NewLine + "Ordering these vehicles...");
 
             // Mise à jour du statut de transfert, selon un schéma précis, de chaque véhicule réservé par le parc
-            parc.GetStoredVehicles().ForEach(v => v.UpdateTransfertState());
+            parc.GetOwnedVehicles().ForEach(v => v.UpdateTransfertState());
 
             Console.WriteLine(Environment.NewLine + "Done!" + Environment.NewLine);
 
-            parc.GetStoredVehicles().ForEach(v => v.PrintVehicleCharacteristics());
+            parc.GetOwnedVehicles().ForEach(v => v.PrintVehicleCharacteristics());
 
             Console.WriteLine();
 
             // On supprime les véhicules du parc automobile pour déclencher les listeners
-            parc.CancelVehiclesOrder();
+            parc.SellVehicles();
 
             // Éventuellement, on peut désactiver les listeners
             parc.Detach(vehicleSupplying, GarageEnums.Events.AddVehicle);

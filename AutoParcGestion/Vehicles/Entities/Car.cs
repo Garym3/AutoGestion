@@ -1,4 +1,4 @@
-﻿namespace AutoGestion.Vehicles.Template
+﻿namespace AutoGestion.Vehicles.Entities
 {
     public class Car : Vehicle
     {

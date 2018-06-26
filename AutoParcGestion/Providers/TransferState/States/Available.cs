@@ -1,7 +1,9 @@
-﻿namespace AutoGestion.Vehicles.State
+﻿namespace AutoGestion.Providers.TransferState.States
 {
-    public class Available : ITransfertState
+    public class Available : ITransferState
     {
+        public ITransferState State { get; }
+
         public void Handle(TransfertState transfertState)
         {
             transfertState.State = new Ordered();

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoGestion.Vehicles.Utils
+namespace AutoGestion.Utils
 {
     public class VehicleEnums
     {

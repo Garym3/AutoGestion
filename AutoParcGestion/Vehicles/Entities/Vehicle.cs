@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using AutoGestion.Vehicles.State;
-using AutoGestion.Vehicles.Utils;
+using AutoGestion.Providers.TransferState;
+using AutoGestion.Utils;
 
-namespace AutoGestion.Vehicles.Template
+namespace AutoGestion.Vehicles.Entities
 {
     public abstract class Vehicle
     {
@@ -61,11 +60,6 @@ namespace AutoGestion.Vehicles.Template
         public virtual void PrintVehicleCharacteristics()
         {
             Console.WriteLine(ToString());
-        }
-
-        public void UpdateTransfertState()
-        {
-            TransfertState.Update();
         }
 
         public override string ToString()

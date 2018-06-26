@@ -1,19 +1,14 @@
-﻿using System;
+﻿using AutoGestion.Providers.TransferState.States;
 
-namespace AutoGestion.Vehicles.State
+namespace AutoGestion.Providers.TransferState
 {
     public class TransfertState
     {
-        public ITransfertState State { get; set; } = new Available();
+        public ITransferState State { get; set; } = new Available();
 
         public void Update()
         {
             State.Handle(this);
-        }
-
-        public Type GetTransfertStateType()
-        {
-            return State.GetType();
         }
 
         public override string ToString()

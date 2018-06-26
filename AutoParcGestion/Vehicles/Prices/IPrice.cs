@@ -1,6 +1,6 @@
-﻿using AutoGestion.Vehicles.Template;
+﻿using AutoGestion.Vehicles.Entities;
 
-namespace AutoGestion.Vehicles.Proxy
+namespace AutoGestion.Vehicles.Prices
 {
     public interface IPrice
     {

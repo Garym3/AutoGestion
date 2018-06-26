@@ -1,7 +1,9 @@
-﻿namespace AutoGestion.Vehicles.State
+﻿namespace AutoGestion.Providers.TransferState.States
 {
-    public class OnTheWay : ITransfertState
+    public class OnTheWay : ITransferState
     {
+        public ITransferState State { get; }
+
         public void Handle(TransfertState transfertState)
         {
             transfertState.State = new Arrived();

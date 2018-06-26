@@ -1,12 +1,11 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoGestion.Garage.Observer;
+using AutoGestion.Parks.Entities;
+using AutoGestion.Providers.TransferState.States;
+using AutoGestion.Utils;
 using AutoGestion.Vehicles.Builder;
-using AutoGestion.Vehicles.Proxy;
-using AutoGestion.Vehicles.State;
-using AutoGestion.Vehicles.Template;
-using AutoGestion.Vehicles.Utils;
+using AutoGestion.Vehicles.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoGestionTests
@@ -14,7 +13,6 @@ namespace AutoGestionTests
     [TestClass]
     public class AutoGestionTests
     {
-        private PriceProxy _priceProxy;
         private Parc _parc;
         private CarBuilderDirector _carBuilderDirector;
         private TruckBuilderDirector _truckBuilderDirector;
@@ -24,7 +22,6 @@ namespace AutoGestionTests
 
         private void TestCleanup()
         {
-            _priceProxy = new PriceProxy();
             _parc = new Parc();
             _carBuilderDirector = new CarBuilderDirector();
             _truckBuilderDirector = new TruckBuilderDirector();
@@ -34,20 +31,19 @@ namespace AutoGestionTests
         }
 
         [TestMethod]
-        public void Should_Build_100_Vehicles()
+        public void Should_Build_Available_Vehicles()
         {
             TestCleanup();
 
             _cars = _carBuilderDirector.Build(50, VehicleEnums.Brands.Renault, VehicleEnums.Colors.Black, 2000, 4, 5).ToList();
             _trucks = _truckBuilderDirector.Build(50, VehicleEnums.Brands.Peugeot, VehicleEnums.Colors.White, 8000, 2, 3, 7000).ToList();
             _vehicles = _cars.Concat(_trucks).ToList();
-            const int expectedVehicleCount = 100;
 
-            Assert.IsTrue(_vehicles.Count == expectedVehicleCount);
+            Assert.IsTrue(_vehicles.TrueForAll(v => v.TransfertState.State is Available));
         }
 
         [TestMethod]
-        public void Should_Add_Vehicles_Into_Parc()
+        public void Should_Transfer_Arrived_Vehicles_Into_Parc()
         {
             TestCleanup();
 
@@ -57,11 +53,11 @@ namespace AutoGestionTests
 
             _parc.OrderVehicles(_vehicles);
 
-            CollectionAssert.AreEqual(_vehicles, _parc.GetStoredVehicles());
+            CollectionAssert.AreEqual(_vehicles, _parc.GetOwnedVehicles());
         }
 
         [TestMethod]
-        public void Should_Remove_All_Vehicles_From_Parc()
+        public void Should_Not_Transfer_OnTheWay_Vehicles_Into_Parc()
         {
             TestCleanup();
 
@@ -69,10 +65,34 @@ namespace AutoGestionTests
             _trucks = _truckBuilderDirector.Build(50, VehicleEnums.Brands.Peugeot, VehicleEnums.Colors.White, 8000, 2, 3, 7000).ToList();
             _vehicles = _cars.Concat(_trucks).ToList();
 
-            _parc.OrderVehicles(_vehicles);
-            _parc.CancelVehiclesOrder();
+            _parc.OrderVehicles(_vehicles); // Vehicles are available
 
-            Assert.IsTrue(_parc.GetStoredVehicles().Count == 0);
+            //_parc.UpdateVehiclesTransferState(); // Vehicles have been ordered by the parc
+            //_parc.UpdateVehiclesTransferState(); // Vehicles are on the way to the parc
+
+            CollectionAssert.AreEqual(_vehicles, _parc.GetOwnedVehicles());
+        }
+
+        [TestMethod]
+        public void Should_Sell_Trucks()
+        {
+            TestCleanup();
+
+            _cars = _carBuilderDirector.Build(50, VehicleEnums.Brands.Renault, VehicleEnums.Colors.Black, 2000, 4, 5).ToList();
+            _trucks = _truckBuilderDirector.Build(50, VehicleEnums.Brands.Peugeot, VehicleEnums.Colors.White, 8000, 2, 3, 7000).ToList();
+            _vehicles = _cars.Concat(_trucks).ToList();
+
+            //_parc.UpdateVehiclesTransferState();
+
+            _parc.OrderVehicles(_vehicles);
+
+            int oldVehiclesCount = _parc.GetOwnedVehicles().Count;
+
+            _parc.SellVehicles(_trucks);
+
+            int newVehiclesCount = _parc.GetOwnedVehicles().Count;
+
+            Assert.IsTrue(oldVehiclesCount - _trucks.Count == newVehiclesCount);
         }
 
         [TestMethod]
@@ -81,14 +101,15 @@ namespace AutoGestionTests
             TestCleanup();
 
             _cars = _carBuilderDirector.Build(2, VehicleEnums.Brands.Renault, VehicleEnums.Colors.Black, 2000, 4, 5).ToList();
+
             foreach (Vehicle car in _cars)
             {
-                car.UpdateTransfertState();
-                Assert.IsTrue(car.TransfertState.GetTransfertStateType() == typeof(Ordered));
+                //car.UpdateTransfertState();
+                Assert.IsTrue(car.TransfertState.State is Ordered);
             }
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void Should_Apply_Tva_On_Price()
         {
             TestCleanup();
@@ -102,6 +123,6 @@ namespace AutoGestionTests
                 vehicle.Price = _priceProxy.ComputeTaxe(vehicle.Price, tvaValue);
                 Assert.IsTrue(Math.Abs(vehicle.Price - priceBeforeTva) > double.Epsilon);
             }
-        }
+        }*/
     }
 }

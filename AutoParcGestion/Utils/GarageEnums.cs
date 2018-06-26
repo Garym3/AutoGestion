@@ -1,4 +1,4 @@
-﻿namespace AutoGestion.Vehicles.Utils
+﻿namespace AutoGestion.Utils
 {
     public static class GarageEnums
     {

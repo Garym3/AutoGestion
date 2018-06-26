@@ -59,10 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Garage\Observer\Observable.cs" />
-    <Compile Include="Garage\Observer\IObserver.cs" />
-    <Compile Include="Garage\Observer\Parc.cs" />
-    <Compile Include="Garage\Observer\VehicleSupplying.cs" />
+    <Compile Include="Parks\Entities\Park.cs" />
     <Compile Include="Vehicles\Builder\IVehicleBuilder.cs" />
     <Compile Include="Vehicles\Builder\TruckBuilderDirector.cs" />
     <Compile Include="Vehicles\Builder\CarBuilderDirector.cs" />
@@ -70,22 +67,21 @@
     <Compile Include="Vehicles\Builder\CarBuilder.cs" />
     <Compile Include="Vehicles\Builder\ITruckBuilder.cs" />
     <Compile Include="Vehicles\Builder\ICarBuilder.cs" />
-    <Compile Include="Vehicles\Proxy\IPrice.cs" />
-    <Compile Include="Vehicles\Proxy\Price.cs" />
-    <Compile Include="Vehicles\Proxy\PriceProxy.cs" />
-    <Compile Include="Vehicles\Template\Car.cs" />
+    <Compile Include="Vehicles\Entities\Car.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Vehicles\State\Arrived.cs" />
-    <Compile Include="Vehicles\State\Available.cs" />
-    <Compile Include="Vehicles\State\OnTheWay.cs" />
-    <Compile Include="Vehicles\State\Ordered.cs" />
-    <Compile Include="Vehicles\State\ITransfertState.cs" />
-    <Compile Include="Vehicles\State\TransfertState.cs" />
-    <Compile Include="Vehicles\Utils\GarageEnums.cs" />
-    <Compile Include="Vehicles\Utils\VehicleEnums.cs" />
-    <Compile Include="Vehicles\Template\Vehicle.cs" />
-    <Compile Include="Vehicles\Template\Truck.cs" />
+    <Compile Include="Providers\Entities\Provider.cs" />
+    <Compile Include="Providers\TransferState\ITransferState.cs" />
+    <Compile Include="Providers\TransferState\States\Arrived.cs" />
+    <Compile Include="Providers\TransferState\States\Available.cs" />
+    <Compile Include="Providers\TransferState\States\OnTheWay.cs" />
+    <Compile Include="Providers\TransferState\States\Ordered.cs" />
+    <Compile Include="Providers\TransferState\States\Stored.cs" />
+    <Compile Include="Providers\TransferState\TransfertState.cs" />
+    <Compile Include="Utils\GarageEnums.cs" />
+    <Compile Include="Utils\VehicleEnums.cs" />
+    <Compile Include="Vehicles\Entities\Vehicle.cs" />
+    <Compile Include="Vehicles\Entities\Truck.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -102,6 +98,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
