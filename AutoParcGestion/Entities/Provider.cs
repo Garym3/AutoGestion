@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
+using AutoGestion.PaymentObserver;
+using AutoGestion.Prices;
 using AutoGestion.Providers.TransferState.States;
-using AutoGestion.Vehicles.Prices;
 
 namespace AutoGestion.Entities
 {
-    public class Provider : IBalance
+    public class Provider : Observable, IBalance
     {
         public PricerProxy PricerProxy { get; } = new PricerProxy();
 
         public List<Vehicle> VehiclesToDeliver { get; } = new List<Vehicle>();
 
-        public double Balance { get; private set; } = 152000.0;
+        public double Balance { get; set; } = 152000.0;
 
 
         public void DeliverVehicles(List<Vehicle> vehicles)

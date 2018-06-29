@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using AutoGestion.Entities;
+using AutoGestion.PaymentObserver;
+using AutoGestion.Prices;
 using AutoGestion.Utils;
 using AutoGestion.Vehicles.Builder;
-using AutoGestion.Vehicles.Prices;
 using static AutoGestion.Utils.VehicleEnums;
 
 namespace AutoGestion
@@ -13,12 +14,11 @@ namespace AutoGestion
         private static void Main(string[] args)
         {
             // Un parc automobile contient de 0 à plusieurs véhicules. Un véhicule peut-être un camion, une voiture.
-            var parc = new Park();
-            var vehicleSupplying = new VehicleSupplying();
+            var park = new Park();
 
             // Notifications lors de l'ajout ou de la suppression de véhicules
-            parc.Attach(vehicleSupplying, GarageEnums.Events.AddVehicle);
-            parc.Attach(vehicleSupplying, GarageEnums.Events.RemoveVehicle);
+            park.Attach(paymentOperation, GarageEnums.Events.AddVehicle);
+            park.Attach(paymentOperation, GarageEnums.Events.RemoveVehicle);
 
             // On prépare les prix des véhicules
             var priceProxy = new PricerProxy();
@@ -33,15 +33,15 @@ namespace AutoGestion
             var vehicles = cars.Concat(trucks).ToList();
 
             // Le parc automobile réserve des véhicules
-            parc.UpdateVehiclesTransfertState(vehicles);
+            park.UpdateVehiclesTransfertState(vehicles);
 
             Console.WriteLine();
 
-            parc.GetOwnedVehicles().ForEach(v => v.PrintVehicleCharacteristics());
+            park.GetOwnedVehicles().ForEach(v => v.PrintVehicleCharacteristics());
 
             Console.WriteLine(Environment.NewLine + "How much do they cost?" + Environment.NewLine);
 
-            parc.GetOwnedVehicles().ForEach(v =>
+            park.GetOwnedVehicles().ForEach(v =>
             {
                 priceProxy.SetPrice(v, priceProxy.ComputeTaxe(v.Price, 1.2));
                 Console.WriteLine($"{v.Brand} | {v.GetType().Name} | Pricer: {v.Price}");
@@ -50,16 +50,16 @@ namespace AutoGestion
             Console.WriteLine(Environment.NewLine + "Ordering these vehicles...");
 
             // Mise à jour du statut de transfert, selon un schéma précis, de chaque véhicule réservé par le parc
-            parc.GetOwnedVehicles().ForEach(v => v.UpdateTransfertState());
+            park.GetOwnedVehicles().ForEach(v => v.UpdateTransfertState());
 
             Console.WriteLine(Environment.NewLine + "Done!" + Environment.NewLine);
 
-            parc.GetOwnedVehicles().ForEach(v => v.PrintVehicleCharacteristics());
+            park.GetOwnedVehicles().ForEach(v => v.PrintVehicleCharacteristics());
 
             Console.WriteLine();
 
             // On supprime les véhicules du parc automobile pour déclencher les listeners
-            parc.SellVehicles(typeof(TruckBuilder), parc.GetOwnedVehicles().Count);
+            park.SellVehicles(typeof(TruckBuilder), park.GetOwnedVehicles().Count);
 
             Console.ReadLine();
         }

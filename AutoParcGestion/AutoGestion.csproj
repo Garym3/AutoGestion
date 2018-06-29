@@ -59,7 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Vehicles\Prices\IBalance.cs" />
+    <Compile Include="PaymentObserver\IPaymentOperation.cs" />
+    <Compile Include="PaymentObserver\Observable.cs" />
+    <Compile Include="Prices\IBalance.cs" />
     <Compile Include="Entities\Park.cs" />
     <Compile Include="Vehicles\Builder\IVehicleBuilder.cs" />
     <Compile Include="Vehicles\Builder\TruckBuilderDirector.cs" />
@@ -83,9 +85,9 @@
     <Compile Include="Utils\VehicleEnums.cs" />
     <Compile Include="Entities\Vehicle.cs" />
     <Compile Include="Entities\Truck.cs" />
-    <Compile Include="Vehicles\Prices\IPricer.cs" />
-    <Compile Include="Vehicles\Prices\Pricer.cs" />
-    <Compile Include="Vehicles\Prices\PricerProxy.cs" />
+    <Compile Include="Prices\IPricer.cs" />
+    <Compile Include="Prices\Pricer.cs" />
+    <Compile Include="Prices\PricerProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

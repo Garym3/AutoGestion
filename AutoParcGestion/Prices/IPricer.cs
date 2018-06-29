@@ -1,6 +1,6 @@
 ﻿using AutoGestion.Entities;
 
-namespace AutoGestion.Vehicles.Prices
+namespace AutoGestion.Prices
 {
     public interface IPricer
     {

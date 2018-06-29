@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoGestion.PaymentObserver;
+using AutoGestion.Prices;
 using AutoGestion.Providers.TransferState.States;
-using AutoGestion.Vehicles.Prices;
 
 namespace AutoGestion.Entities
 {
@@ -10,14 +11,7 @@ namespace AutoGestion.Entities
     {
         public List<Vehicle> OwnedVehicles { get; set; } = new List<Vehicle>();
 
-        public Provider Provider { get; set; }
-
-        public double Balance { get; } = 120000.0;
-
-        public Park(Provider provider)
-        {
-            Provider = provider;
-        }
+        public double Balance { get; set; } = 120000.0;
 
         public void OrderVehicle(Vehicle vehicle)
         {
