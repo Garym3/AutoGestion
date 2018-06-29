@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoGestion.Entities;
 using AutoGestion.Utils;
-using AutoGestion.Vehicles.Entities;
 
 namespace AutoGestion.Vehicles.Builder
 {

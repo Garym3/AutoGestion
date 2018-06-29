@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoGestion.Entities;
 using AutoGestion.Utils;
-using AutoGestion.Vehicles.Entities;
 
 namespace AutoGestion.Vehicles.Builder
 {

@@ -1,8 +1,8 @@
-﻿using AutoGestion.Vehicles.Entities;
+﻿using AutoGestion.Entities;
 
 namespace AutoGestion.Vehicles.Prices
 {
-    public class Price : IPrice
+    public class Pricer : IPricer
     {
         public double SetPrice(Vehicle vehicle, double price)
         {

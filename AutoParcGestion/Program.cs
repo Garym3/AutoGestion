@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+using AutoGestion.Entities;
+using AutoGestion.Utils;
 using AutoGestion.Vehicles.Builder;
+using AutoGestion.Vehicles.Prices;
 using static AutoGestion.Utils.VehicleEnums;
 
 namespace AutoGestion
@@ -9,8 +12,8 @@ namespace AutoGestion
     {
         private static void Main(string[] args)
         {
-            /*// Un parc automobile contient de 0 à plusieurs véhicules. Un véhicule peut-être un camion, une voiture.
-            var parc = new Parc();
+            // Un parc automobile contient de 0 à plusieurs véhicules. Un véhicule peut-être un camion, une voiture.
+            var parc = new Park();
             var vehicleSupplying = new VehicleSupplying();
 
             // Notifications lors de l'ajout ou de la suppression de véhicules
@@ -18,7 +21,7 @@ namespace AutoGestion
             parc.Attach(vehicleSupplying, GarageEnums.Events.RemoveVehicle);
 
             // On prépare les prix des véhicules
-            var priceProxy = new PriceProxy();
+            var priceProxy = new PricerProxy();
 
             // Plusieurs lots de véhicules sont disponibles à la vente
             var carBuilderDirector = new CarBuilderDirector();
@@ -41,7 +44,7 @@ namespace AutoGestion
             parc.GetOwnedVehicles().ForEach(v =>
             {
                 priceProxy.SetPrice(v, priceProxy.ComputeTaxe(v.Price, 1.2));
-                Console.WriteLine($"{v.Brand} | {v.GetType().Name} | Price: {v.Price}");
+                Console.WriteLine($"{v.Brand} | {v.GetType().Name} | Pricer: {v.Price}");
             });
 
             Console.WriteLine(Environment.NewLine + "Ordering these vehicles...");
@@ -56,13 +59,9 @@ namespace AutoGestion
             Console.WriteLine();
 
             // On supprime les véhicules du parc automobile pour déclencher les listeners
-            parc.SellVehicles();
+            parc.SellVehicles(typeof(TruckBuilder), parc.GetOwnedVehicles().Count);
 
-            // Éventuellement, on peut désactiver les listeners
-            parc.Detach(vehicleSupplying, GarageEnums.Events.AddVehicle);
-            parc.Detach(vehicleSupplying, GarageEnums.Events.RemoveVehicle);
-
-            Console.ReadLine();*/
+            Console.ReadLine();
         }
     }
 }

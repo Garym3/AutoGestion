@@ -2,7 +2,7 @@
 using AutoGestion.Providers.TransferState;
 using AutoGestion.Utils;
 
-namespace AutoGestion.Vehicles.Entities
+namespace AutoGestion.Entities
 {
     public abstract class Vehicle
     {

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoGestion.Parks.Entities;
+using AutoGestion.Entities;
 using AutoGestion.Providers.TransferState.States;
 using AutoGestion.Utils;
 using AutoGestion.Vehicles.Builder;
-using AutoGestion.Vehicles.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoGestionTests
@@ -13,7 +12,7 @@ namespace AutoGestionTests
     [TestClass]
     public class AutoGestionTests
     {
-        private Parc _parc;
+        private Park _park;
         private CarBuilderDirector _carBuilderDirector;
         private TruckBuilderDirector _truckBuilderDirector;
         private List<Vehicle> _cars;
@@ -22,7 +21,7 @@ namespace AutoGestionTests
 
         private void TestCleanup()
         {
-            _parc = new Parc();
+            _park = new Park();
             _carBuilderDirector = new CarBuilderDirector();
             _truckBuilderDirector = new TruckBuilderDirector();
             _cars = new List<Vehicle>();
@@ -51,9 +50,9 @@ namespace AutoGestionTests
             _trucks = _truckBuilderDirector.Build(50, VehicleEnums.Brands.Peugeot, VehicleEnums.Colors.White, 8000, 2, 3, 7000).ToList();
             _vehicles = _cars.Concat(_trucks).ToList();
 
-            _parc.OrderVehicles(_vehicles);
+            _park.OrderVehicles(_vehicles);
 
-            CollectionAssert.AreEqual(_vehicles, _parc.GetOwnedVehicles());
+            CollectionAssert.AreEqual(_vehicles, _park.GetOwnedVehicles());
         }
 
         [TestMethod]
@@ -65,12 +64,12 @@ namespace AutoGestionTests
             _trucks = _truckBuilderDirector.Build(50, VehicleEnums.Brands.Peugeot, VehicleEnums.Colors.White, 8000, 2, 3, 7000).ToList();
             _vehicles = _cars.Concat(_trucks).ToList();
 
-            _parc.OrderVehicles(_vehicles); // Vehicles are available
+            _park.OrderVehicles(_vehicles); // Vehicles are available
 
-            //_parc.UpdateVehiclesTransferState(); // Vehicles have been ordered by the parc
-            //_parc.UpdateVehiclesTransferState(); // Vehicles are on the way to the parc
+            //_park.UpdateVehiclesTransferState(); // Vehicles have been ordered by the parc
+            //_park.UpdateVehiclesTransferState(); // Vehicles are on the way to the parc
 
-            CollectionAssert.AreEqual(_vehicles, _parc.GetOwnedVehicles());
+            CollectionAssert.AreEqual(_vehicles, _park.GetOwnedVehicles());
         }
 
         [TestMethod]
@@ -82,15 +81,17 @@ namespace AutoGestionTests
             _trucks = _truckBuilderDirector.Build(50, VehicleEnums.Brands.Peugeot, VehicleEnums.Colors.White, 8000, 2, 3, 7000).ToList();
             _vehicles = _cars.Concat(_trucks).ToList();
 
-            //_parc.UpdateVehiclesTransferState();
+            //_park.UpdateVehiclesTransferState();
 
-            _parc.OrderVehicles(_vehicles);
+            _park.OrderVehicles(_vehicles);
 
-            int oldVehiclesCount = _parc.GetOwnedVehicles().Count;
+            int oldVehiclesCount = _park.GetOwnedVehicles().Count;
 
-            _parc.SellVehicles(_trucks);
+            
 
-            int newVehiclesCount = _parc.GetOwnedVehicles().Count;
+            _park.SellVehicles(typeof(Truck), 40);
+
+            int newVehiclesCount = _park.GetOwnedVehicles().Count;
 
             Assert.IsTrue(oldVehiclesCount - _trucks.Count == newVehiclesCount);
         }
@@ -119,9 +120,9 @@ namespace AutoGestionTests
 
             foreach (Vehicle vehicle in _cars)
             {
-                double priceBeforeTva = vehicle.Price;
-                vehicle.Price = _priceProxy.ComputeTaxe(vehicle.Price, tvaValue);
-                Assert.IsTrue(Math.Abs(vehicle.Price - priceBeforeTva) > double.Epsilon);
+                double priceBeforeTva = vehicle.Pricer;
+                vehicle.Pricer = PricerProxy.ComputeTaxe(vehicle.Pricer, tvaValue);
+                Assert.IsTrue(Math.Abs(vehicle.Pricer - priceBeforeTva) > double.Epsilon);
             }
         }*/
     }

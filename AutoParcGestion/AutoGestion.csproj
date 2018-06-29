@@ -59,7 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parks\Entities\Park.cs" />
+    <Compile Include="Vehicles\Prices\IBalance.cs" />
+    <Compile Include="Entities\Park.cs" />
     <Compile Include="Vehicles\Builder\IVehicleBuilder.cs" />
     <Compile Include="Vehicles\Builder\TruckBuilderDirector.cs" />
     <Compile Include="Vehicles\Builder\CarBuilderDirector.cs" />
@@ -67,10 +68,10 @@
     <Compile Include="Vehicles\Builder\CarBuilder.cs" />
     <Compile Include="Vehicles\Builder\ITruckBuilder.cs" />
     <Compile Include="Vehicles\Builder\ICarBuilder.cs" />
-    <Compile Include="Vehicles\Entities\Car.cs" />
+    <Compile Include="Entities\Car.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\Entities\Provider.cs" />
+    <Compile Include="Entities\Provider.cs" />
     <Compile Include="Providers\TransferState\ITransferState.cs" />
     <Compile Include="Providers\TransferState\States\Arrived.cs" />
     <Compile Include="Providers\TransferState\States\Available.cs" />
@@ -80,8 +81,11 @@
     <Compile Include="Providers\TransferState\TransfertState.cs" />
     <Compile Include="Utils\GarageEnums.cs" />
     <Compile Include="Utils\VehicleEnums.cs" />
-    <Compile Include="Vehicles\Entities\Vehicle.cs" />
-    <Compile Include="Vehicles\Entities\Truck.cs" />
+    <Compile Include="Entities\Vehicle.cs" />
+    <Compile Include="Entities\Truck.cs" />
+    <Compile Include="Vehicles\Prices\IPricer.cs" />
+    <Compile Include="Vehicles\Prices\Pricer.cs" />
+    <Compile Include="Vehicles\Prices\PricerProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

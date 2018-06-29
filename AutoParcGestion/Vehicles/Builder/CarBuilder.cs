@@ -1,4 +1,4 @@
-﻿using AutoGestion.Vehicles.Entities;
+﻿using AutoGestion.Entities;
 using static AutoGestion.Utils.VehicleEnums;
 
 namespace AutoGestion.Vehicles.Builder
