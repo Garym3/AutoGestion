@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoGestion.Network;
 using AutoGestion.Prices;
 using AutoGestion.TransferState.States;
 using AutoGestion.Utils;
@@ -18,13 +19,11 @@ namespace AutoGestion.Entities
 
         public double Balance { get; private set; } = 152000.0;
 
-        public double ParkBalance { get; private set; }
+        public ParkNetwork Network { get; set; }
 
 
-        public Provider(double parkBalance)
+        public Provider()
         {
-            ParkBalance = parkBalance;
-
             RenewStock();
         }
 
@@ -70,8 +69,7 @@ namespace AutoGestion.Entities
         {
             if (AvailableVehicles == null || AvailableVehicles.Count <= 0) return;
 
-            var orderedVehicle = AvailableVehicles.Where(v =>
-                vehicleType == v.GetType() && v.TransfertState.State is Available).ToList();
+            var orderedVehicle = AvailableVehicles.Where(v => vehicleType == v.GetType() && v.TransfertState.State is Available).ToList();
 
             orderedVehicle.ForEach(v => v.TransfertState.Update());
 
@@ -116,14 +114,7 @@ namespace AutoGestion.Entities
         {
             double totalPrice = GetVehiclesPrice(vehicleType);
 
-            CashPaiement(totalPrice);
-        }
-
-        private void CashPaiement(double totalPrice)
-        {
-            Balance += totalPrice;
-
-            ParkBalance -= totalPrice;
+            AddToBalance(totalPrice);
         }
 
         private double GetVehiclesPrice(Type vehicleType)
@@ -142,9 +133,13 @@ namespace AutoGestion.Entities
 
         private void RenewStock()
         {
-            AvailableVehicles.AddRange(new CarBuilderDirector().Build(40, VehicleEnums.Brands.Renault, VehicleEnums.Colors.Black, 2000, 4, 5).ToList());
+            AvailableVehicles.AddRange(new CarBuilderDirector().Build(new Random().Next(50, 200)));
 
-            AvailableVehicles.AddRange(new TruckBuilderDirector().Build(70, VehicleEnums.Brands.Peugeot, VehicleEnums.Colors.White, 8000, 2, 3, 7000).ToList());
+            AvailableVehicles.AddRange(new TruckBuilderDirector().Build(new Random().Next(50, 200)));
         }
+
+        public void AddToBalance(double amount) => Balance += amount;
+
+        public void SubtractFromBalance(double amount) => Balance -= amount;
     }
 }

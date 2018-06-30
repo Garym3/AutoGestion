@@ -21,6 +21,16 @@ namespace AutoGestion.Vehicles
             _truckBuilder = truckBuilder;
         }
 
+        /// <summary>
+        /// Builds a truck with parameters set by the client
+        /// </summary>
+        /// <param name="brand">Trucks brand</param>
+        /// <param name="color">Color of the trucks</param>
+        /// <param name="engineCapacity">Engine capacity of the trucks</param>
+        /// <param name="numberOfDoors">Number of doors of the trucks</param>
+        /// <param name="numberOfSeats">Number of seats of the trucks</param>
+        /// <param name="freight">Freight capacity of the trucks</param>
+        /// <returns>The built trucks</returns>
         public Vehicle Build(VehicleEnums.Brands brand, VehicleEnums.Colors color, int engineCapacity, int numberOfDoors, int numberOfSeats, double freight)
         {
             _truckBuilder = new TruckBuilder();
@@ -35,6 +45,17 @@ namespace AutoGestion.Vehicles
                 .Build();
         }
 
+        /// <summary>
+        /// Builds trucks with parameters set by the client
+        /// </summary>
+        /// <param name="count">Number of trucks to build</param>
+        /// <param name="brand">Trucks brand</param>
+        /// <param name="color">Color of the trucks</param>
+        /// <param name="engineCapacity">Engine capacity of the trucks</param>
+        /// <param name="numberOfDoors">Number of doors of the trucks</param>
+        /// <param name="numberOfSeats">Number of seats of the trucks</param>
+        /// <param name="freight">Freight capacity of the trucks</param>
+        /// <returns>The built trucks</returns>
         public IEnumerable<Vehicle> Build(int count, VehicleEnums.Brands brand, VehicleEnums.Colors color, int engineCapacity, int numberOfDoors, int numberOfSeats, double freight)
         {
             for (int i = 0; i < count; i++)
@@ -51,7 +72,11 @@ namespace AutoGestion.Vehicles
                     .Build();
             }
         }
-        
+
+        /// <summary>
+        /// Builds a randomized truck
+        /// </summary>
+        /// <returns>The built truck</returns>
         public Vehicle Build()
         {
             var randomBrand = _vehicleEnums.GetRandomBrandValue();
@@ -68,6 +93,11 @@ namespace AutoGestion.Vehicles
                 .Build();
         }
 
+        /// <summary>
+        /// Builds randomized trucks with a specific count
+        /// </summary>
+        /// <param name="count">Number of trucks to create</param>
+        /// <returns>The built trucks</returns>
         public IEnumerable<Vehicle> Build(int count)
         {
             var randomBrand = _vehicleEnums.GetRandomBrandValue();

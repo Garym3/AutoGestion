@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoGestion.Network;
 using AutoGestion.Prices;
 using AutoGestion.TransferState.States;
 
@@ -14,18 +15,26 @@ namespace AutoGestion.Entities
 
         public double Balance { get; private set; }
 
-        public Provider OfficialProvider { get; }
+        public int ParkCapacity { get; }
+
+        public int NumberOfVehicles => OwnedVehicles.Count;
+
+        public ParkNetwork Network { get; set; }
 
 
         public Park()
         {
             Balance = new Random().Next(500000, 1000000);
-            OfficialProvider = new Provider(Balance);
+            ParkCapacity = 5000;
         }
 
         public void OrderVehicle(Type vehicleType)
         {
-            var orderedVehicle = OfficialProvider.BuyVehicle(vehicleType);
+            var availableProvider = Network.GetAvailableProvider(this);
+
+            if (NumberOfVehicles + 1 > ParkCapacity) return;
+
+            var orderedVehicle = availableProvider.BuyVehicle(vehicleType);
 
             orderedVehicle.TransfertState.Update();
 
@@ -36,7 +45,11 @@ namespace AutoGestion.Entities
 
         public void OrderAllVehicles(Type vehicleType)
         {
-            var orderedVehicles = OfficialProvider.BuyAllVehicles(vehicleType).ToList();
+            var availableProvider = Network.GetAvailableProvider(this);
+
+            if (NumberOfVehicles + availableProvider.AvailableVehicles.Count(v => v.GetType() == vehicleType) > ParkCapacity) return;
+
+            var orderedVehicles = availableProvider.BuyAllVehicles(vehicleType).ToList();
 
             foreach (Vehicle orderedVehicle in orderedVehicles)
             {
@@ -50,7 +63,7 @@ namespace AutoGestion.Entities
 
         public void SellVehicle(Type vehicleType)
         {
-            if (vehicleType == null) return;
+            if (vehicleType == null || NumberOfVehicles <= 0) return;
 
             Vehicle vehicleToRemove = OwnedVehicles.First(v => v.GetType() == vehicleType && v.TransfertState.State is Stored);
 
@@ -61,7 +74,7 @@ namespace AutoGestion.Entities
 
         public void SellAllVehicles(Type vehicleType)
         {
-            if (OwnedVehicles == null || OwnedVehicles.Count <= 0) return;
+            if (OwnedVehicles == null || NumberOfVehicles <= 0) return;
 
             var vehiclesToSell = OwnedVehicles.Where(v => v.GetType() == vehicleType && v.TransfertState.State is Stored).ToList();
 
@@ -72,5 +85,9 @@ namespace AutoGestion.Entities
                 Balance += vehicleToSell.Price;
             }
         }
+
+        public void AddToBalance(double amount) => Balance += amount;
+
+        public void SubtractFromBalance(double amount) => Balance -= amount;
     }
 }

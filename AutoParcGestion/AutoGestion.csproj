@@ -59,8 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Prices\IBalance.cs" />
+    <Compile Include="Accounting\IBalance.cs" />
     <Compile Include="Entities\Park.cs" />
+    <Compile Include="Network\ParkNetwork.cs" />
+    <Compile Include="Network\Network.cs" />
     <Compile Include="Vehicles\IVehicleBuilder.cs" />
     <Compile Include="Vehicles\TruckBuilderDirector.cs" />
     <Compile Include="Vehicles\CarBuilderDirector.cs" />
@@ -83,9 +85,9 @@
     <Compile Include="Utils\VehicleEnums.cs" />
     <Compile Include="Entities\Vehicle.cs" />
     <Compile Include="Entities\Truck.cs" />
-    <Compile Include="Prices\IPricer.cs" />
-    <Compile Include="Prices\Pricer.cs" />
-    <Compile Include="Prices\PricerProxy.cs" />
+    <Compile Include="Accounting\IPricer.cs" />
+    <Compile Include="Accounting\Pricer.cs" />
+    <Compile Include="Accounting\PricerProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
