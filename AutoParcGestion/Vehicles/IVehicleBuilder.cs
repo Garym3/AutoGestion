@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoGestion.Entities;
+﻿using AutoGestion.Entities;
 using AutoGestion.Utils;
 
-namespace AutoGestion.Vehicles.Builder
+namespace AutoGestion.Vehicles
 {
     public interface IVehicleBuilder<out TIVehicleBuilder>
     {

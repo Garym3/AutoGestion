@@ -1,5 +1,4 @@
 ﻿using System;
-using AutoGestion.Providers.TransferState;
 using AutoGestion.Utils;
 
 namespace AutoGestion.Entities
@@ -24,7 +23,7 @@ namespace AutoGestion.Entities
 
         public double Price = Math.Round((Rnd.NextDouble() + 0.05) * 10000);
 
-        public readonly TransfertState TransfertState = new TransfertState();
+        public readonly TransferState.TransferState TransfertState = new TransferState.TransferState();
         
 
         public virtual void StartEngine()
@@ -55,6 +54,11 @@ namespace AutoGestion.Entities
         {
             if (TankFuel <= 0.0) return;
             TankFuel = 0.0;
+        }
+
+        public virtual double GetTvaTax()
+        {
+            return 1.25;
         }
 
         public virtual void PrintVehicleCharacteristics()

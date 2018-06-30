@@ -1,7 +1,7 @@
 ﻿using AutoGestion.Entities;
-using static AutoGestion.Utils.VehicleEnums;
+using AutoGestion.Utils;
 
-namespace AutoGestion.Vehicles.Builder
+namespace AutoGestion.Vehicles
 {
     public class TruckBuilder : ITruckBuilder
     {
@@ -17,14 +17,14 @@ namespace AutoGestion.Vehicles.Builder
             return _truck;
         }
 
-        public ITruckBuilder WithBrand(Brands brand)
+        public ITruckBuilder WithBrand(VehicleEnums.Brands brand)
         {
             _truck.Brand = brand;
 
             return this;
         }
 
-        public ITruckBuilder WithColor(Colors color)
+        public ITruckBuilder WithColor(VehicleEnums.Colors color)
         {
             _truck.Color = color;
 

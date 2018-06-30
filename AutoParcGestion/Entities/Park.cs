@@ -1,55 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoGestion.PaymentObserver;
 using AutoGestion.Prices;
-using AutoGestion.Providers.TransferState.States;
+using AutoGestion.TransferState.States;
 
 namespace AutoGestion.Entities
 {
     public class Park : IBalance
     {
-        public List<Vehicle> OwnedVehicles { get; set; } = new List<Vehicle>();
+        public List<Vehicle> OwnedVehicles { get; } = new List<Vehicle>();
 
-        public double Balance { get; set; } = 120000.0;
+        private PricerProxy PricerProxy { get; } = new PricerProxy();
 
-        public void OrderVehicle(Vehicle vehicle)
+        public double Balance { get; private set; }
+
+        public Provider OfficialProvider { get; }
+
+
+        public Park()
         {
-            OwnedVehicles.Add(vehicle);
+            Balance = new Random().Next(500000, 1000000);
+            OfficialProvider = new Provider(Balance);
         }
 
-        public void OrderVehicles(List<Vehicle> vehicles)
+        public void OrderVehicle(Type vehicleType)
         {
-            if (vehicles == null || vehicles.Count <= 0) return;
+            var orderedVehicle = OfficialProvider.BuyVehicle(vehicleType);
 
-            foreach (Vehicle vehicle in vehicles)
+            orderedVehicle.TransfertState.Update();
+
+            PricerProxy.ComputeTaxe(orderedVehicle.Price, orderedVehicle.GetTvaTax());
+
+            OwnedVehicles.Add(orderedVehicle);
+        }
+
+        public void OrderAllVehicles(Type vehicleType)
+        {
+            var orderedVehicles = OfficialProvider.BuyAllVehicles(vehicleType).ToList();
+
+            foreach (Vehicle orderedVehicle in orderedVehicles)
             {
-                OrderVehicle(vehicle);
+                orderedVehicle.TransfertState.Update();
+
+                Balance -= orderedVehicle.Price;
             }
+
+            OwnedVehicles.AddRange(orderedVehicles);
         }
 
-        public void SellVehicle(Vehicle vehicle)
+        public void SellVehicle(Type vehicleType)
         {
-            if (vehicle == null) return;
+            if (vehicleType == null) return;
 
-            OwnedVehicles.Remove(vehicle);
+            Vehicle vehicleToRemove = OwnedVehicles.First(v => v.GetType() == vehicleType && v.TransfertState.State is Stored);
+
+            OwnedVehicles.Remove(vehicleToRemove);
+
+            Balance += vehicleToRemove.Price;
         }
 
-        public void SellVehicles(Type vehicleType, int count)
+        public void SellAllVehicles(Type vehicleType)
         {
             if (OwnedVehicles == null || OwnedVehicles.Count <= 0) return;
 
-            var filteredVehicles = OwnedVehicles.Where(v => v.GetType() == vehicleType && v.TransfertState.State is Stored).ToList();
+            var vehiclesToSell = OwnedVehicles.Where(v => v.GetType() == vehicleType && v.TransfertState.State is Stored).ToList();
 
-            int filteredVehiclesCount = filteredVehicles.Count;
-
-            if (filteredVehicles.Count <= count)
+            foreach (Vehicle vehicleToSell in vehiclesToSell)
             {
-                OwnedVehicles.Clear();
-                return;
-            }
+                OwnedVehicles.Remove(vehicleToSell);
 
-            filteredVehicles.RemoveRange(0, count);
+                Balance += vehicleToSell.Price;
+            }
         }
     }
 }

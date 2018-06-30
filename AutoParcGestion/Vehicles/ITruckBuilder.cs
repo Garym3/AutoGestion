@@ -1,4 +1,4 @@
-﻿namespace AutoGestion.Vehicles.Builder
+﻿namespace AutoGestion.Vehicles
 {
     public interface ITruckBuilder : IVehicleBuilder<ITruckBuilder>
     {

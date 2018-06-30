@@ -1,7 +1,7 @@
 ﻿using AutoGestion.Entities;
-using static AutoGestion.Utils.VehicleEnums;
+using AutoGestion.Utils;
 
-namespace AutoGestion.Vehicles.Builder
+namespace AutoGestion.Vehicles
 {
     public class CarBuilder : ICarBuilder
     {
@@ -17,14 +17,14 @@ namespace AutoGestion.Vehicles.Builder
             return _car;
         }
 
-        public ICarBuilder WithBrand(Brands brand)
+        public ICarBuilder WithBrand(VehicleEnums.Brands brand)
         {
             _car.Brand = brand;
 
             return this;
         }
 
-        public ICarBuilder WithColor(Colors color)
+        public ICarBuilder WithColor(VehicleEnums.Colors color)
         {
             _car.Color = color;
 

@@ -1,48 +1,120 @@
-﻿using System.Collections.Generic;
-using AutoGestion.PaymentObserver;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoGestion.Prices;
-using AutoGestion.Providers.TransferState.States;
+using AutoGestion.TransferState.States;
+using AutoGestion.Utils;
+using AutoGestion.Vehicles;
 
 namespace AutoGestion.Entities
 {
-    public class Provider : Observable, IBalance
+    public class Provider : IBalance
     {
-        public PricerProxy PricerProxy { get; } = new PricerProxy();
+        private PricerProxy PricerProxy { get; } = new PricerProxy();
 
-        public List<Vehicle> VehiclesToDeliver { get; } = new List<Vehicle>();
+        public List<Vehicle> AvailableVehicles { get; set; } = new List<Vehicle>();
 
-        public double Balance { get; set; } = 152000.0;
+        public List<Vehicle> OrderedVehicles { get; } = new List<Vehicle>();
+
+        public double Balance { get; private set; } = 152000.0;
+
+        public double ParkBalance { get; private set; }
 
 
-        public void DeliverVehicles(List<Vehicle> vehicles)
+        public Provider(double parkBalance)
         {
-            if (vehicles == null || vehicles.Count <= 0) return;
+            ParkBalance = parkBalance;
 
-            if (!vehicles.TrueForAll(v => v.TransfertState.State is OnTheWay)) return;
-
-            vehicles.ForEach(v => v.TransfertState.Update());
+            RenewStock();
         }
 
-        public void RouteVehicles(Park park)
+        public Vehicle BuyVehicle(Type vehicleType)
         {
-            if (VehiclesToDeliver == null || VehiclesToDeliver.Count <= 0) return;
+            PrepareVehicle(vehicleType);
+            RouteVehicle(vehicleType);
+            DeliverVehicle(vehicleType);
 
-            if (!VehiclesToDeliver.TrueForAll(v => v.TransfertState.State is Ordered)) return;
+            var boughtVehicle = OrderedVehicles.First();
 
-            VehiclesToDeliver.ForEach(v => v.TransfertState.Update());
+            OrderedVehicles.Clear();
+
+            return boughtVehicle;
         }
 
-        public void DeliverVehicles()
+        public IEnumerable<Vehicle> BuyAllVehicles(Type vehicleType)
         {
-            if (VehiclesToDeliver == null || VehiclesToDeliver.Count <= 0) return;
+            PrepareVehicles(vehicleType);
+            RouteVehicles(vehicleType);
+            DeliverVehicles(vehicleType);
 
-            if (!VehiclesToDeliver.TrueForAll(v => v.TransfertState.State is OnTheWay)) return;
+            var boughtVehicles = OrderedVehicles.ToList();
 
-            VehiclesToDeliver.ForEach(v => v.TransfertState.Update());
+            OrderedVehicles.Clear();
 
-            double totalPrice = GetVehiclesPrice();
+            return boughtVehicles;
+        }
 
-            VehiclesToDeliver.Clear();
+        private void PrepareVehicle(Type vehicleType)
+        {
+            if (AvailableVehicles == null || AvailableVehicles.Count <= 0) return;
+
+            var orderedVehicle = AvailableVehicles.First(v =>
+                vehicleType == v.GetType() && v.TransfertState.State is Available);
+
+            orderedVehicle.TransfertState.Update();
+
+            OrderedVehicles.Add(orderedVehicle);
+        }
+
+        private void PrepareVehicles(Type vehicleType)
+        {
+            if (AvailableVehicles == null || AvailableVehicles.Count <= 0) return;
+
+            var orderedVehicle = AvailableVehicles.Where(v =>
+                vehicleType == v.GetType() && v.TransfertState.State is Available).ToList();
+
+            orderedVehicle.ForEach(v => v.TransfertState.Update());
+
+            OrderedVehicles.AddRange(orderedVehicle);
+        }
+
+        private void RouteVehicle(Type vehicleType)
+        {
+            if (OrderedVehicles == null || OrderedVehicles.Count <= 0) return;
+
+            OrderedVehicles.First(v => vehicleType == v.GetType() && v.TransfertState.State is Ordered).TransfertState.Update();
+        }
+
+        private void RouteVehicles(Type vehicleType)
+        {
+            if (OrderedVehicles == null || OrderedVehicles.Count <= 0) return;
+
+            OrderedVehicles.Where(v => vehicleType == v.GetType() && v.TransfertState.State is Ordered).ToList().ForEach(v => v.TransfertState.Update());
+        }
+
+        private void DeliverVehicle(Type vehicleType)
+        {
+            if (OrderedVehicles == null || OrderedVehicles.Count <= 0) return;
+
+            OrderedVehicles.First(v => vehicleType == v.GetType() && v.TransfertState.State is OnTheWay).TransfertState.Update();
+
+            ProcessToPayment(vehicleType);
+        }
+
+        private void DeliverVehicles(Type vehicleType)
+        {
+            if (OrderedVehicles == null || OrderedVehicles.Count <= 0) return;
+
+            OrderedVehicles.Where(v => vehicleType == v.GetType() && v.TransfertState.State is OnTheWay).ToList().ForEach(v => v.TransfertState.Update());
+
+            OrderedVehicles.ForEach(v => v.TransfertState.Update());
+
+            ProcessToPayment(vehicleType);
+        }
+
+        private void ProcessToPayment(Type vehicleType)
+        {
+            double totalPrice = GetVehiclesPrice(vehicleType);
 
             CashPaiement(totalPrice);
         }
@@ -51,19 +123,28 @@ namespace AutoGestion.Entities
         {
             Balance += totalPrice;
 
-
+            ParkBalance -= totalPrice;
         }
 
-        private double GetVehiclesPrice()
+        private double GetVehiclesPrice(Type vehicleType)
         {
             double totalPrice = 0.0;
 
-            foreach (Vehicle vehicle in VehiclesToDeliver)
+            foreach (Vehicle vehicle in OrderedVehicles)
             {
-                totalPrice = PricerProxy.ComputeTaxe(vehicle.Price, 1.2);
+                if (vehicle.GetType() != vehicleType) continue;
+
+                totalPrice += PricerProxy.ComputeTaxe(vehicle.Price, vehicle.GetTvaTax());
             }
 
             return totalPrice;
+        }
+
+        private void RenewStock()
+        {
+            AvailableVehicles.AddRange(new CarBuilderDirector().Build(40, VehicleEnums.Brands.Renault, VehicleEnums.Colors.Black, 2000, 4, 5).ToList());
+
+            AvailableVehicles.AddRange(new TruckBuilderDirector().Build(70, VehicleEnums.Brands.Peugeot, VehicleEnums.Colors.White, 8000, 2, 3, 7000).ToList());
         }
     }
 }

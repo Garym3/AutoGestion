@@ -1,8 +1,8 @@
-﻿using AutoGestion.Providers.TransferState.States;
+﻿using AutoGestion.TransferState.States;
 
-namespace AutoGestion.Providers.TransferState
+namespace AutoGestion.TransferState
 {
-    public class TransfertState
+    public class TransferState
     {
         public ITransferState State { get; set; } = new Available();
 
